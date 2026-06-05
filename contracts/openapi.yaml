@@ -1,0 +1,173 @@
+openapi: 3.0.3
+info:
+  title: AI Delivery Copilot API
+  version: 0.1.0
+paths:
+  /api/v1/import-notes:
+    post:
+      summary: 导入客户访谈文本并提取结构化需求
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AIImportRequest'
+      responses:
+        '200':
+          description: 需求池响应
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequirementPoolResponse'
+  /api/v1/generate-artifacts:
+    post:
+      summary: 基于结构化需求生成 PRD、用户故事、风险雷达、知识库与复盘
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateArtifactsRequest'
+      responses:
+        '200':
+          description: 项目交付文档
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectArtifactsResponse'
+components:
+  schemas:
+    BaseContext:
+      type: object
+      required: [tenant_id, user_id, request_id, idempotency_key]
+      properties:
+        tenant_id:
+          type: string
+        user_id:
+          type: string
+        request_id:
+          type: string
+        idempotency_key:
+          type: string
+    AIImportRequest:
+      allOf:
+        - $ref: '#/components/schemas/BaseContext'
+        - type: object
+          properties:
+            transcript:
+              type: string
+    GenerateArtifactsRequest:
+      allOf:
+        - $ref: '#/components/schemas/BaseContext'
+        - type: object
+          properties:
+            requirement_summary:
+              type: string
+    RequirementItem:
+      type: object
+      properties:
+        scope:
+          type: string
+        description:
+          type: string
+        priority:
+          type: string
+          enum: [low, medium, high]
+        acceptance_criteria:
+          type: array
+          items:
+            type: string
+    RequirementPool:
+      type: object
+      properties:
+        requirements:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequirementItem'
+        project_summary:
+          type: string
+    RequirementPoolResponse:
+      type: object
+      properties:
+        record_id:
+          type: integer
+        pool:
+          $ref: '#/components/schemas/RequirementPool'
+    PRDItem:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        acceptance_criteria:
+          type: array
+          items:
+            type: string
+        priority:
+          type: string
+          enum: [low, medium, high]
+    UserStory:
+      type: object
+      properties:
+        as_a:
+          type: string
+        i_want:
+          type: string
+        so_that:
+          type: string
+        acceptance_criteria:
+          type: array
+          items:
+            type: string
+    RiskItem:
+      type: object
+      properties:
+        risk:
+          type: string
+        impact:
+          type: string
+        mitigation:
+          type: string
+    KnowledgeEntry:
+      type: object
+      properties:
+        title:
+          type: string
+        source:
+          type: string
+        excerpt:
+          type: string
+    RetrospectiveEntry:
+      type: object
+      properties:
+        lesson:
+          type: string
+        category:
+          type: string
+          enum: [success, challenge, improvement]
+    ProjectArtifactsResponse:
+      type: object
+      properties:
+        record_id:
+          type: integer
+        prd:
+          type: array
+          items:
+            $ref: '#/components/schemas/PRDItem'
+        user_stories:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserStory'
+        risk_radar:
+          type: array
+          items:
+            $ref: '#/components/schemas/RiskItem'
+        knowledge_base:
+          type: array
+          items:
+            $ref: '#/components/schemas/KnowledgeEntry'
+        retrospective:
+          type: array
+          items:
+            $ref: '#/components/schemas/RetrospectiveEntry'

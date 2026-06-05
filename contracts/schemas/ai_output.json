@@ -1,0 +1,89 @@
+{
+  "requirement_pool": {
+    "type": "object",
+    "required": ["requirements", "project_summary"],
+    "properties": {
+      "requirements": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["scope", "description", "priority", "acceptance_criteria"],
+          "properties": {
+            "scope": {"type": "string"},
+            "description": {"type": "string"},
+            "priority": {"type": "string", "enum": ["low", "medium", "high"]},
+            "acceptance_criteria": {"type": "array", "items": {"type": "string"}}
+          }
+        }
+      },
+      "project_summary": {"type": "string"}
+    }
+  },
+  "project_artifacts": {
+    "type": "object",
+    "required": ["prd", "user_stories", "risk_radar", "knowledge_base", "retrospective"],
+    "properties": {
+      "prd": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["title", "description", "acceptance_criteria", "priority"],
+          "properties": {
+            "title": {"type": "string"},
+            "description": {"type": "string"},
+            "acceptance_criteria": {"type": "array", "items": {"type": "string"}},
+            "priority": {"type": "string", "enum": ["low", "medium", "high"]}
+          }
+        }
+      },
+      "user_stories": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["as_a", "i_want", "so_that", "acceptance_criteria"],
+          "properties": {
+            "as_a": {"type": "string"},
+            "i_want": {"type": "string"},
+            "so_that": {"type": "string"},
+            "acceptance_criteria": {"type": "array", "items": {"type": "string"}}
+          }
+        }
+      },
+      "risk_radar": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["risk", "impact", "mitigation"],
+          "properties": {
+            "risk": {"type": "string"},
+            "impact": {"type": "string"},
+            "mitigation": {"type": "string"}
+          }
+        }
+      },
+      "knowledge_base": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["title", "source", "excerpt"],
+          "properties": {
+            "title": {"type": "string"},
+            "source": {"type": "string"},
+            "excerpt": {"type": "string"}
+          }
+        }
+      },
+      "retrospective": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["lesson", "category"],
+          "properties": {
+            "lesson": {"type": "string"},
+            "category": {"type": "string", "enum": ["success", "challenge", "improvement"]}
+          }
+        }
+      }
+    }
+  }
+}
