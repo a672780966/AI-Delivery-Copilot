@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NodeGenerateRequest",
+  "type": "object",
+  "required": ["run_id", "node_id", "goal", "files_in_scope", "constraints", "acceptance_tests"],
+  "properties": {
+    "run_id": {"type": "string", "format": "uuid"},
+    "node_id": {"type": "string", "format": "uuid"},
+    "goal": {"type": "string", "minLength": 10},
+    "files_in_scope": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "constraints": {
+      "type": "object",
+      "required": ["forbidden_paths", "forbidden_imports"],
+      "properties": {
+        "forbidden_paths": {"type": "array", "items": {"type": "string"}},
+        "forbidden_imports": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "acceptance_tests": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

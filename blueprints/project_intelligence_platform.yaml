@@ -1,0 +1,61 @@
+version: 1
+project:
+  name: project-intelligence-platform-harness
+  goal: 以受控状态机驱动 AI 生成、评估、修复和验证代码
+  scope:
+    - run 管理
+    - node 状态机
+    - 四核心 agent
+    - eval/verify 门控
+    - 短期/长期记忆
+    - 文档导入与 RAG
+  non_goals:
+    - 完整 CRM/ERP 集成
+    - 复杂前台 BI 看板
+  success_kpis:
+    node_json_valid_rate: ">=95%"
+    verify_pass_rate: ">=85%"
+    rollback_success_rate: "100%"
+    rag_top5_recall: ">=80%"
+tech_stack:
+  backend: fastapi
+  database: postgresql
+  vector_store: pgvector
+  parser: unstructured
+  orchestrator: internal_executor
+  deployment: docker_compose
+models:
+  routing:
+    plan: openai
+    generate: ollama
+    review: claude
+    verify: local_rules
+  embedding:
+    provider: openai
+    model: text-embedding-3-large
+    dimensions: 1024
+module_boundaries:
+  writable_paths:
+    - backend/app
+    - tests
+    - contracts
+    - blueprints
+    - demo
+  forbidden_paths:
+    - infra/production
+    - .github/workflows/release.yml
+    - secrets
+    - docs/archive
+  forbidden_imports:
+    - subprocess.Popen
+    - os.system
+quality_gates:
+  lint: true
+  type_check: true
+  unit_test: true
+  smoke_test: true
+  coverage_min: 0.70
+security:
+  require_jwt: true
+  require_tenant_scope: true
+  audit_log: true
