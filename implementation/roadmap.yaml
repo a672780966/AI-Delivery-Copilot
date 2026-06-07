@@ -1,0 +1,86 @@
+version: 2
+roles:
+  planner: primary_reviewer_model
+  implementer: local_codex_6b
+  reviewer: primary_reviewer_model
+states:
+  - PLAN_PENDING
+  - PLAN_READY
+  - LOCAL_IMPLEMENTING
+  - LOCAL_SUBMITTED
+  - REVIEWING
+  - CHANGES_REQUESTED
+  - APPROVED
+modules:
+  - id: M01
+    name: 规划与交接规范
+    state: APPROVED
+    depends_on: []
+    owner: planner
+    directory: implementation/handbook
+  - id: M02
+    name: PostgreSQL 持久化与迁移
+    state: PLAN_READY
+    depends_on: [M01]
+    owner: local_codex_6b
+    directory: implementation/modules/M02-persistence
+  - id: M03
+    name: Node 状态机与事务迁移
+    state: PLAN_PENDING
+    depends_on: [M02]
+    owner: local_codex_6b
+    directory: implementation/modules/M03-state-machine
+  - id: M04
+    name: Git Workspace、Checkpoint 与 Rollback
+    state: PLAN_PENDING
+    depends_on: [M03]
+    owner: local_codex_6b
+    directory: implementation/modules/M04-git-sandbox
+  - id: M05
+    name: Provider Gateway 与 Structured Output
+    state: PLAN_PENDING
+    depends_on: [M02]
+    owner: local_codex_6b
+    directory: implementation/modules/M05-provider-gateway
+  - id: M06
+    name: Executor 与四 Agent 协议
+    state: PLAN_PENDING
+    depends_on: [M03, M04, M05]
+    owner: local_codex_6b
+    directory: implementation/modules/M06-agent-loop
+  - id: M07
+    name: Eval、Repair 与 Verify 门禁
+    state: PLAN_PENDING
+    depends_on: [M06]
+    owner: local_codex_6b
+    directory: implementation/modules/M07-quality-loop
+  - id: M08
+    name: 短期与长期记忆
+    state: PLAN_PENDING
+    depends_on: [M02, M07]
+    owner: local_codex_6b
+    directory: implementation/modules/M08-memory
+  - id: M09
+    name: 文档导入与 Hybrid RAG
+    state: PLAN_PENDING
+    depends_on: [M02, M05]
+    owner: local_codex_6b
+    directory: implementation/modules/M09-rag
+  - id: M10
+    name: JWT、Tenant Scope、RLS 与审计
+    state: PLAN_PENDING
+    depends_on: [M02, M03]
+    owner: local_codex_6b
+    directory: implementation/modules/M10-security
+  - id: M11
+    name: Worker、幂等与恢复
+    state: PLAN_PENDING
+    depends_on: [M03, M06, M10]
+    owner: local_codex_6b
+    directory: implementation/modules/M11-workers
+  - id: M12
+    name: 控制台、CRM Demo 与发布硬化
+    state: PLAN_PENDING
+    depends_on: [M07, M08, M09, M10, M11]
+    owner: local_codex_6b
+    directory: implementation/modules/M12-console-release

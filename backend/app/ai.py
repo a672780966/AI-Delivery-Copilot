@@ -1,6 +1,6 @@
 import re
 from typing import Any
-from jsonschema import validate, ValidationError
+from jsonschema import validate
 from app.schemas import RequirementPool, ProjectArtifactsResponse, RequirementItem, PRDItem, UserStory, RiskItem, KnowledgeEntry, RetrospectiveEntry
 from pathlib import Path
 import json

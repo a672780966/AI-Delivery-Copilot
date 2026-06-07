@@ -1,6 +1,4 @@
-import json
 from app.ai import validate_ai_output
-from app.schemas import RequirementPool
 
 
 def test_requirement_pool_schema_passes():

@@ -1,0 +1,39 @@
+module: M02
+module_name: PostgreSQL 持久化与迁移
+start_commit: REPLACE_ME
+submitted_commit: REPLACE_AFTER_COMMIT
+status: LOCAL_SUBMITTED
+architecture:
+  summary: REPLACE_ME
+  directories:
+    - path: backend/app/persistence
+      responsibility: Harness ORM 与 tenant-scoped repository
+    - path: infra/migrations
+      responsibility: PostgreSQL/pgvector schema migration
+    - path: tests/persistence
+      responsibility: 模型、repository 与迁移契约测试
+changed_files:
+  - path: REPLACE_ME
+    change_type: added
+    responsibility: REPLACE_ME
+    goals:
+      - REPLACE_ME
+    symbols:
+      - REPLACE_ME
+    tests:
+      - REPLACE_ME
+    known_limitations: []
+requirements_traceability:
+  - acceptance: REPLACE_WITH_EXACT_PLAN_ACCEPTANCE
+    implementation_files:
+      - REPLACE_ME
+    evidence:
+      - REPLACE_ME
+verification:
+  - command: REPLACE_ME
+    result: PASS_OR_FAIL
+    output_summary: REPLACE_ME
+scope_check:
+  changed_files_match_manifest: false
+  out_of_scope_files: []
+  future_module_features_added: []

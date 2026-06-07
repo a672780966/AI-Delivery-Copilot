@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NodeGenerateResult",
+  "type": "object",
+  "required": ["summary", "files_to_change", "patch", "tests_added", "verify_commands", "risk_notes"],
+  "properties": {
+    "summary": {"type": "string", "minLength": 1},
+    "files_to_change": {"type": "array", "items": {"type": "string"}},
+    "patch": {"type": "string", "minLength": 1},
+    "tests_added": {"type": "array", "items": {"type": "string"}},
+    "verify_commands": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "risk_notes": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}
