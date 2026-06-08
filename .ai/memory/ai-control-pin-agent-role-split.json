@@ -1,0 +1,9 @@
+{
+  "task_id": "ai-control-pin-agent-role-split",
+  "node_id": "pin-agent-role-split",
+  "branch": "opencode/ai-control/pin-agent-role-split",
+  "queue_state": "codex_reviewing",
+  "implementation_owner": "opencode_build_local",
+  "model_provider": "local",
+  "review_recommendation": "request_repair"
+}

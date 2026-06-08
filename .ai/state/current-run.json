@@ -1,0 +1,9 @@
+{
+  "current_module": "ai-control",
+  "current_node": "pin-agent-role-split",
+  "current_phase": "codex_reviewing",
+  "latest_branch": "opencode/ai-control/pin-agent-role-split",
+  "latest_commit": null,
+  "blocking_issues": [],
+  "next_action": "codex.final_review"
+}
