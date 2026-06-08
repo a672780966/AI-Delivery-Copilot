@@ -28,3 +28,38 @@ docker compose up --build
 - 所有写操作必须包含 `tenant_id`、`user_id`、`request_id`、`idempotency_key`
 - 所有 mutating tool call 必须写审计日志
 - 所有跨系统写入均使用 mock connector
+
+## 本地验证命令
+
+### 前端
+
+前端只有以下命令可用：
+
+```bash
+# 安装依赖（如果 node_modules 缺失）
+cd web
+npm install
+npm run build
+npm run dev
+npm run start
+```
+
+### 后端
+
+```bash
+# 安装依赖
+pip install -r backend/requirements.txt -r backend/requirements-dev.txt
+
+# 运行测试
+python -m pytest tests
+```
+
+### 工具命令
+
+```bash
+# 验证 JSON Schema 格式
+python -m json.tool contracts/schemas/ai_output.json
+
+# 验证 Docker Compose 配置
+docker compose -f infra/docker-compose.yml config
+```
