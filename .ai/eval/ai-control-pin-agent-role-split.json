@@ -2,25 +2,14 @@
   "task_id": "ai-control-pin-agent-role-split",
   "node_id": "pin-agent-role-split",
   "branch_name": "opencode/ai-control/pin-agent-role-split",
-  "commit_hash": null,
-  "changed_files": [
-    ".ai/templates/final-summary.schema.json",
-    ".ai/templates/task-contract.schema.json",
-    ".ai/state/current-run.json"
-  ],
+  "commit_hash": "be127709955c8f3d541061aad7e0f17c8e92d357",
+  "changed_files": [".ai/README.md",".ai/eval/ai-control-pin-agent-role-split.json",".ai/memory/ai-control-pin-agent-role-split.json",".ai/reviews/ai-control-pin-agent-role-split.diff-summary.md",".ai/reviews/ai-control-pin-agent-role-split.md",".ai/state/codex-context-checkpoint.md",".ai/state/current-run.json",".ai/tasks/active/ai-control-pin-agent-role-split.md",".ai/templates/final-summary.schema.json",".ai/templates/task-contract.schema.json",".ai/verify/ai-control-pin-agent-role-split.md"],
   "scope_check": "pass",
   "forbidden_scope_check": "pass",
   "verify_status": "pass",
-  "review_openrouter": null,
-  "review_google": null,
-  "details_ref": null,
-  "next_action_for_codex": "codex_reviewing",
-  "execution_provenance": {
-    "planner": "codex",
-    "implementation_owner": "opencode_build_local",
-    "implementation_model": null,
-    "implementation_model_provider": "local",
-    "codex_wrote_code": false,
-    "verify_layer": "verify_local"
-  }
+  "review_openrouter": {"model":"OpenRouter GPT OSS 120B","final_review":"accept","residual_risk":"none"},
+  "review_google": {"triggered":false,"reason":"Final local gate and OpenRouter review accepted"},
+  "details_ref": {"verify":".ai/verify/ai-control-pin-agent-role-split.md","review":".ai/reviews/ai-control-pin-agent-role-split.md","memory":".ai/memory/ai-control-pin-agent-role-split.json"},
+  "next_action_for_codex": "accept",
+  "execution_provenance": {"planner":"codex","implementation_owner":"opencode_build_local","implementation_model":"Qwopus 3.5 9B Coder Q5 Local","implementation_model_provider":"local","codex_wrote_code":false,"verify_layer":"verify_local","review_report_model":"OpenRouter GPT OSS 120B","review_second_opinion_model":null}
 }

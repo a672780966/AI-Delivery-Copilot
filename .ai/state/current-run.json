@@ -3,7 +3,7 @@
   "current_node": "pin-agent-role-split",
   "current_phase": "codex_reviewing",
   "latest_branch": "opencode/ai-control/pin-agent-role-split",
-  "latest_commit": null,
+  "latest_commit": "be127709955c8f3d541061aad7e0f17c8e92d357",
   "blocking_issues": [],
   "next_action": "codex.final_review"
 }

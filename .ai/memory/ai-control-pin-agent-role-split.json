@@ -4,6 +4,11 @@
   "branch": "opencode/ai-control/pin-agent-role-split",
   "queue_state": "codex_reviewing",
   "implementation_owner": "opencode_build_local",
-  "model_provider": "local",
-  "review_recommendation": "request_repair"
+  "implementation_model": "Qwopus 3.5 9B Coder Q5 Local",
+  "implementation_model_provider": "local",
+  "review_recommendation": "accept",
+  "draft_pr": true,
+  "verify_local_baseline_started": false,
+  "openrouter_final_review": "accept",
+  "residual_risk": "none"
 }
