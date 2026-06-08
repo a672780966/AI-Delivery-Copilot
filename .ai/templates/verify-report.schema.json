@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["task_id", "node_id", "branch_name", "changed_files", "scope_check", "forbidden_scope_check", "commands_run", "passed_commands", "failed_commands", "verify_status", "reason", "logs_ref"],
+  "properties": {
+    "task_id": { "type": "string" },
+    "node_id": { "type": "string" },
+    "branch_name": { "type": "string" },
+    "changed_files": { "type": "array", "items": { "type": "string" } },
+    "scope_check": { "enum": ["pass", "fail"] },
+    "forbidden_scope_check": { "enum": ["pass", "fail"] },
+    "commands_run": { "type": "array", "items": { "type": "string" } },
+    "passed_commands": { "type": "array", "items": { "type": "string" } },
+    "failed_commands": { "type": "array", "items": { "type": "string" } },
+    "verify_status": { "enum": ["pass", "fail", "environment_dependency_missing"] },
+    "reason": { "type": "string" },
+    "logs_ref": { "type": "string" }
+  }
+}

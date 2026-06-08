@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["task_id", "node_id", "risk_level", "summary", "verify_interpretation", "scope_risk", "repair_recommendation", "recommended_codex_decision", "need_google_second_opinion"],
+  "properties": {
+    "task_id": { "type": "string" },
+    "node_id": { "type": "string" },
+    "risk_level": { "enum": ["low", "medium", "high"] },
+    "summary": { "type": "string" },
+    "verify_interpretation": { "type": "string" },
+    "scope_risk": { "type": "string" },
+    "repair_recommendation": { "type": "string" },
+    "recommended_codex_decision": { "enum": ["accept", "request_repair", "split_task", "inspect_detail"] },
+    "need_google_second_opinion": { "type": "boolean" }
+  }
+}
