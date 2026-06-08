@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/a672780966/AI-Delivery-Copilot/.ai/templates/task-loop-state.schema.json",
+  "title": "AI Task Loop State",
+  "type": "object",
+  "required": [
+    "task_id",
+    "node_id",
+    "branch_name",
+    "current_phase",
+    "latest_commit",
+    "blocking_issues",
+    "next_action",
+    "updated_at_utc"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "node_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "branch_name": {
+      "type": "string",
+      "pattern": "^opencode/.+/.+$"
+    },
+    "current_phase": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "claimed_active",
+        "runner_dispatch",
+        "codex_reviewing",
+        "repair_requested",
+        "accepted",
+        "rejected"
+      ]
+    },
+    "latest_commit": {
+      "type": "string"
+    },
+    "blocking_issues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "next_action": {
+      "type": "string",
+      "enum": [
+        "run_invoke_agent_node",
+        "codex_final_review",
+        "codex_request_repair",
+        "codex_accept_and_move_done",
+        "codex_reject_or_split"
+      ]
+    },
+    "updated_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

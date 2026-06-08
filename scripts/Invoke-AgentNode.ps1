@@ -3,7 +3,8 @@ param(
     [string]$BaseBranch = "main",
     [switch]$DryRun,
     [switch]$SkipBuild,
-    [switch]$SkipCommit
+    [switch]$SkipCommit,
+    [switch]$AllowActiveTask
 )
 
 Set-StrictMode -Version Latest
@@ -77,7 +78,8 @@ function ConvertFrom-JsonObject {
 
 New-Item -ItemType Directory -Force -Path $activeDir, $evalDir, $verifyDir, $reviewDir, $memoryDir | Out-Null
 
-if ((Get-ChildItem $activeDir -Filter "*.md" -ErrorAction SilentlyContinue | Measure-Object).Count -gt 0) {
+$activeTaskCount = (Get-ChildItem $activeDir -Filter "*.md" -ErrorAction SilentlyContinue | Measure-Object).Count
+if ($activeTaskCount -gt 0 -and -not $AllowActiveTask) {
     throw "Another node is already active."
 }
 
@@ -116,7 +118,9 @@ if ($DryRun) {
     exit 0
 }
 
-Copy-Item -Path $resolvedTask -Destination $activePath -Force
+if ($resolvedTask.Path -ne $activePath) {
+    Copy-Item -Path $resolvedTask -Destination $activePath -Force
+}
 
 $currentBranch = (Invoke-GitText -GitArgs @("branch", "--show-current") | Select-Object -First 1)
 if ($currentBranch -ne $branch) {
