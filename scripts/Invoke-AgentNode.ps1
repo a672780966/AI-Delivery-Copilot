@@ -25,6 +25,21 @@ function Get-TaskField {
     return ""
 }
 
+function Get-SectionItems {
+    param([string]$Content, [string]$Heading)
+    $pattern = "(?ms)^##\s+$([Regex]::Escape($Heading))\s*$\n(?<body>.*?)(?=^##\s+|\z)"
+    $match = [Regex]::Match($Content, $pattern)
+    if (-not $match.Success) { return @() }
+    return @($match.Groups["body"].Value -split "`n" |
+        ForEach-Object { $_.Trim() } |
+        Where-Object { $_.StartsWith("- ") } |
+        ForEach-Object {
+            $item = $_.Substring(2).Trim()
+            $item = $item.Trim([char]0x60)
+            $item.Trim()
+        })
+}
+
 function Test-CommandExists {
     param([string]$Name)
     return $null -ne (Get-Command $Name -ErrorAction SilentlyContinue)
@@ -37,6 +52,18 @@ function Invoke-GitText {
         throw "git $($GitArgs -join ' ') failed"
     }
     return @($output)
+}
+
+function Invoke-GitAddExplicit {
+    param([string[]]$Paths)
+    $cleanPaths = @($Paths | Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | Sort-Object -Unique)
+    if ($cleanPaths.Count -eq 0) {
+        throw "Refusing to stage because explicit path list is empty."
+    }
+    & git add -- @cleanPaths
+    if ($LASTEXITCODE -ne 0) {
+        throw "git add failed for explicit path list: $($cleanPaths -join ', ')"
+    }
 }
 
 function Invoke-OpencodeAgent {
@@ -94,6 +121,7 @@ $taskContent = Get-Content -Raw -Encoding UTF8 $resolvedTask
 $taskId = Get-TaskField -Content $taskContent -Name "task_id"
 $nodeId = Get-TaskField -Content $taskContent -Name "node_id"
 $branch = Get-TaskField -Content $taskContent -Name "branch"
+$allowedScope = Get-SectionItems -Content $taskContent -Heading "Allowed Scope"
 if ([string]::IsNullOrWhiteSpace($taskId)) { throw "Task missing task_id field." }
 if ([string]::IsNullOrWhiteSpace($nodeId)) { throw "Task missing node_id field." }
 if ([string]::IsNullOrWhiteSpace($branch)) { throw "Task missing branch field." }
@@ -104,6 +132,15 @@ $reviewPath = Join-Path $reviewDir "$taskId.md"
 $diffSummaryPath = Join-Path $reviewDir "$taskId.diff-summary.md"
 $memoryPath = Join-Path $memoryDir "$taskId.json"
 $activePath = Join-Path $activeDir (Split-Path -Leaf $resolvedTask)
+$controlOutputs = @(
+    ".ai/eval/$taskId.json",
+    ".ai/verify/$taskId.md",
+    ".ai/reviews/$taskId.md",
+    ".ai/reviews/$taskId.diff-summary.md",
+    ".ai/reviews/$taskId.google.md",
+    ".ai/memory/$taskId.json",
+    ".ai/tasks/active/$(Split-Path -Leaf $resolvedTask)"
+)
 
 $plannedStages = @("opencode.build-local", "verify-local", "opencode.review-openrouter", "opencode.review-google:conditional", "final-summary", "commit:conditional")
 
@@ -203,7 +240,7 @@ if (-not $SkipCommit) {
     if ($scopeCheck -eq "fail" -or $forbiddenScopeCheck -eq "fail") {
         throw "Refusing to commit because scope checks failed."
     }
-    Invoke-GitText -GitArgs @("add", "--") | Out-Null
+    Invoke-GitAddExplicit -Paths @($allowedScope + $controlOutputs)
     Invoke-GitText -GitArgs @(
         "commit",
         "-m", "task_id: $taskId",
