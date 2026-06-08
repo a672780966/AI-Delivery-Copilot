@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-2020-12/schema#",
+  "title": "OpenCode Result Schema",
+  "description": "Schema for OpenCode execution result objects",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_id",
+    "module_id",
+    "node_id",
+    "branch_name",
+    "commit_hash",
+    "changed_files",
+    "eval_result",
+    "verify_result",
+    "repair_count",
+    "risk_notes",
+    "final_status",
+    "next_action_for_codex"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string"
+    },
+    "module_id": {
+      "type": "string"
+    },
+    "node_id": {
+      "type": "string"
+    },
+    "branch_name": {
+      "type": "string"
+    },
+    "commit_hash": {
+      "type": "string"
+    },
+    "changed_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "eval_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "summary"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "passed",
+            "failed",
+            "not_run"
+          ]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "verify_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "commands"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "passed",
+            "failed",
+            "not_run"
+          ]
+        },
+        "commands": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "summary": {
+          "type": "string"
+        }
+      }
+    },
+    "repair_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2
+    },
+    "risk_notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "final_status": {
+      "type": "string",
+      "enum": [
+        "ready_for_codex_review",
+        "repair_needed",
+        "blocked",
+        "failed"
+      ]
+    },
+    "next_action_for_codex": {
+      "type": "string"
+    }
+  }
+}

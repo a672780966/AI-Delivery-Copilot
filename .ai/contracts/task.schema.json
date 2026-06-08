@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-2020-12/schema#",
+  "title": "Task Schema",
+  "description": "Schema for AI/contracts task definitions",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_id",
+    "module_id",
+    "node_id",
+    "goal",
+    "background",
+    "allowed_scope",
+    "forbidden_scope",
+    "required_skills",
+    "acceptance_criteria",
+    "verify_commands",
+    "expected_outputs",
+    "max_files_changed",
+    "max_repair_rounds"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for the task"
+    },
+    "module_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Module identifier"
+    },
+    "node_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Exactly one node is allowed per task"
+    },
+    "goal": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The goal to achieve"
+    },
+    "background": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Background context for the task"
+    },
+    "allowed_scope": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Scope of allowed operations"
+    },
+    "forbidden_scope": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Scope of forbidden operations"
+    },
+    "required_skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Required skills for the task"
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Criteria for accepting the task completion"
+    },
+    "verify_commands": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Commands to verify task completion"
+    },
+    "expected_outputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Expected outputs from the task"
+    },
+    "max_files_changed": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Maximum number of files that can be changed"
+    },
+    "max_repair_rounds": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2,
+      "description": "Maximum number of repair rounds allowed"
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-2020-12/schema#",
+  "title": "Contract Review Schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_id",
+    "node_id",
+    "decision",
+    "reason",
+    "evidence",
+    "blocking_issues",
+    "next_action",
+    "memory_update"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "node_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "accept",
+        "request_repair",
+        "reject",
+        "split_task",
+        "rollback",
+        "open_pr"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "blocking_issues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "next_action": {
+      "type": "string",
+      "minLength": 1
+    },
+    "memory_update": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "write_short_term": {
+          "type": "boolean"
+        },
+        "write_long_term": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
