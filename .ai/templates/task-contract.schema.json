@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Task Contract Schema",
+  "description": "Schema for defining task contracts in the Codex -> Opencode serial workflow. This schema enforces implementation owner and model provider constraints to prevent role drift and unauthorized modifications.",
+  "required": [
+    "task_id",
+    "node_id",
+    "implementation_owner",
+    "implementation_model_provider",
+    "allowed_scope",
+    "forbidden_scope",
+    "execution_provenance"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "description": "Unique identifier for the queued task."
+    },
+    "node_id": {
+      "type": "string",
+      "description": "Unique identifier for the atomic node."
+    },
+    "implementation_owner": {
+      "type": "string",
+      "enum": ["opencode_build_local"],
+      "description": "The only role allowed to modify files in the allowed scope. Must be exactly 'opencode_build_local'."
+    },
+    "implementation_model_provider": {
+      "type": "string",
+      "enum": ["local"],
+      "description": "The model provider required for implementation. Must be exactly 'local' to prevent hosted model replacement."
+    },
+    "allowed_scope": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "File paths or patterns that may be modified. Only opencode_build_local may modify these."
+      },
+      "description": "List of paths/paths that may be modified by opencode_build_local only."
+    },
+    "forbidden_scope": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "File paths or patterns that must NEVER be modified."
+      },
+      "description": "List of paths/paths that must NEVER be modified under any circumstances."
+    },
+    "execution_provenance": {
+      "type": "object",
+      "required": [
+        "planner",
+        "implementation_owner",
+        "implementation_model",
+        "implementation_model_provider",
+        "codex_wrote_code",
+        "verify_layer"
+      ],
+      "properties": {
+        "planner": {
+          "const": "codex",
+          "type": "string"
+        },
+        "implementation_owner": {
+          "const": "opencode_build_local",
+          "type": "string"
+        },
+        "implementation_model": {
+          "type": "string",
+          "description": "The specific model instance used for implementation."
+        },
+        "implementation_model_provider": {
+          "const": "local",
+          "type": "string"
+        },
+        "codex_wrote_code": {
+          "const": false,
+          "type": "boolean"
+        },
+        "verify_layer": {
+          "const": "verify_local",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "codex_wrote_code": {
+      "type": "boolean",
+      "default": false,
+      "description": "Must be false. Codex is forbidden from writing implementation code."
+    },
+    "review_models": {
+      "type": "object",
+      "properties": {
+        "review_openrouter": {
+          "type": "string",
+          "description": "The OpenRouter model used for read-only review reporting."
+        },
+        "review_google": {
+          "type": "string",
+          "description": "The Google AI Studio model used for second-opinion review when triggered."
+        }
+      },
+      "description": "Read-only review models. They cannot replace deterministic verification."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "task_id": "ai-control-pin-agent-role-split",
+      "node_id": "pin-agent-role-split",
+      "implementation_owner": "opencode_build_local",
+      "implementation_model_provider": "local",
+      "allowed_scope": [
+        ".ai/state/codex-context-checkpoint.md",
+        ".ai/README.md",
+        ".ai/templates/final-summary.schema.json",
+        ".ai/templates/task-contract.schema.json"
+      ],
+      "forbidden_scope": [
+        "backend/app",
+        "web/app",
+        "contracts/schemas",
+        "tests",
+        "infra",
+        "scripts/Invoke-VerifyLocal.ps1",
+        "scripts/Invoke-AgentNode.ps1",
+        "scripts/Invoke-TaskLoop.ps1",
+        "Dockerfile",
+        "package.json",
+        "requirements*.txt"
+      ],
+      "codex_wrote_code": false,
+      "review_models": {
+        "review_openrouter": "OpenRouter GPT OSS 120B",
+        "review_google": "Google AI Studio Gemma 4 31B"
+      }
+    }
+  ]
+}
