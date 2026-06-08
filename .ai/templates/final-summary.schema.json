@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["task_id", "node_id", "branch_name", "commit_hash", "changed_files", "scope_check", "forbidden_scope_check", "verify_status", "review_openrouter", "review_google", "details_ref", "next_action_for_codex"],
+  "properties": {
+    "task_id": { "type": "string" },
+    "node_id": { "type": "string" },
+    "branch_name": { "type": "string" },
+    "commit_hash": { "type": "string" },
+    "changed_files": { "type": "array", "items": { "type": "string" } },
+    "scope_check": { "enum": ["pass", "fail"] },
+    "forbidden_scope_check": { "enum": ["pass", "fail"] },
+    "verify_status": { "enum": ["pass", "fail", "environment_dependency_missing"] },
+    "review_openrouter": { "type": "object" },
+    "review_google": { "type": "object" },
+    "details_ref": { "type": "object" },
+    "next_action_for_codex": { "enum": ["accept", "request_repair", "split_task", "inspect_detail", "open_pr"] }
+  }
+}
