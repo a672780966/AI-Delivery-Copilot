@@ -118,6 +118,7 @@ $controlOutputs = @(
     ".ai/reviews/$taskId.google.md",
     ".ai/memory/$taskId.json",
     ".ai/state/current-run.json",
+    ".ai/tasks/queued/$taskFileName",
     ".ai/tasks/active/$taskFileName",
     ".ai/tasks/review_pending/$taskFileName",
     ".ai/tasks/repair_requested/$taskFileName"
